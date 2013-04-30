@@ -1,13 +1,14 @@
 CRASHBURN
 =========
-This is the crashburn projet.
+This is the crashburn project, a simple 3D multiplayer video game, 
+based on Crash Bash.
 
 BUILDING
 ========
 
 Dependencies
 ------------
-- libglfw
+- libglfw 2.7.7 or greater
 - ...
 
 Instructions
