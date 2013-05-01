@@ -2,10 +2,13 @@
 #include <cstdlib>
 
 #include <crashburn/crashburn.h>
+#include <crashburn/engine/engine.h>
 
 int main(int argc, char** argv)
 {
-  std::cout << "Hello world!" << std::endl;
+    crashburn::Engine& engine = crashburn::Engine::instance();
 
-  return EXIT_SUCCESS;
+    engine.start();
+
+    return EXIT_SUCCESS;
 }
