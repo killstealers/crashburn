@@ -1,20 +1,7 @@
+#include <crashburn/loaders/md2_loader.h>
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// This file load a 3D model from a file in MD2 format
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#endif
-
-#include <iostream>
 #include <fstream>
 #include <cassert>
-
-#include "crashburn/loaders/md2_loader.h"
 
 namespace crashburn
 {

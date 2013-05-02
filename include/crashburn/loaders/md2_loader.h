@@ -1,18 +1,11 @@
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// MD2 Loader Header file (MD2 is a 3D Mesh format)
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#ifndef _MD2_LOADER_H_
-#define _MD2_LOADER_H_
+#ifndef CRASHBURN_LOADER_MD2_H
+#define CRASHBURN_LOADER_MD2_H
 
 #include <vector>
 #include <string>
 #include <map>
 
-#include <GL/gl.h>
+#include <GL/glfw.h>
 
 namespace crashburn
 {
@@ -232,4 +225,4 @@ private:
 */
 } // end of namespace 'crashburn'
 
-#endif // _MD2_LOADER_H_
+#endif // CRASHBURN_LOADER_MD2_H
