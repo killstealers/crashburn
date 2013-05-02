@@ -94,7 +94,7 @@ struct MD2Frame_t
 };
 
 
-// OpenGL command packet
+// OpenGL commands
 struct MD2Glcmd_t
 {
     float s;    // S texture coord.
@@ -130,16 +130,8 @@ public:
     typedef std::map<std::string, MD2Anim_t> AnimMap;
 
 public:
-    // Public interface
-    //bool loadTexture (const std::string &filename);
-    //void setTexture (const std::string &filename);
-
-    //void renderFrameImmediate (int frame);
-    //void drawModelItpImmediate (int frameA, int frameB, float interp);
-
-    //void renderFrameWithGLcmds (int frame);
-    //void drawModelItpWithGLcmds (int frameA, int frameB, float interp);
-
+    // Public interface  
+    
     //virtual bool load(Mesh* mesh, std::string filename); 
 
     void setScale(GLfloat scale) { _scale = scale; }
@@ -174,62 +166,6 @@ private:
     AnimMap _anims;
 };
 
-/*
-/////////////////////////////////////////////////////////////////////////////
-//
-// MD2 Object Class.
-//
-/////////////////////////////////////////////////////////////////////////////
-
-class MD2Object
-{
-public:
-    // Public internal types/enums
-    enum MD2RenderMode
-    {
-        kDrawImmediate = 0,
-        kDrawGLcmds,
-    };
-
-public:
-    // Constructor/destructor
-    MD2Object ();
-    MD2Object (MD2Model *model);
-    ~MD2Object ();
-
-public:
-    // Public interface
-    void drawObjectItp (bool animated, MD2RenderMode renderMode);
-    void drawObjectFrame (int frame, MD2RenderMode renderMode);
-    void animate (int startFrame, int endFrame, float percent);
-    void animate (float percent);
-
-    void setModel (MD2Model *model);
-    void setScale (float scale) { _scale = scale; }
-    void setAnim (const std::string &name);
-
-    // Accessors
-    const MD2Model *model () const { return _model; }
-    float scale () const { return _scale; }
-    const std::string &currentAnim () const { return _currentAnim; }
-
-private:
-    // Member variables
-    MD2Model *_model;
-
-    int _currFrame;
-    int _nextFrame;
-    float _interp;
-
-    float _percent;
-    float _scale;
-
-    // Animation data
-    const MD2Anim_t *_animInfo;
-    std::string _currentAnim;
-};
-
-*/
 } // end of namespace 'crashburn'
 
 #endif // _MD2_LOADER_H_
