@@ -7,7 +7,7 @@
 
 #include <GL/glfw.h>
 
-#include "crashburn/crashburn.h"
+#include <crashburn/crashburn.h>
 
 namespace crashburn
 {
@@ -78,8 +78,8 @@ struct MD2Frame_t
         delete [] verts;
     }
 
-    vec3 scale;        
-    vec3 translate;    
+    vec3f_t scale;        
+    vec3f_t translate;    
     char name[16];       
     MD2Vertex_t *verts;  
 };

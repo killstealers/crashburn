@@ -1,18 +1,16 @@
-/////////////////////////////////////////////////////////////////////////////
-//
-// 2D Text object to be displayed on the screen
-//
-/////////////////////////////////////////////////////////////////////////////
+#include <crashburn/engine/2d_text.h>
 
-#include "crashburn/engine/2d_text.h"
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
 
-GLubyte space[] =
+static GLubyte space[] =
 {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-GLubyte dot[] =
+
+static GLubyte dot[] =
 {0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-GLubyte letters[][13] = {
+
+static GLubyte letters[][13] = {
 {0x00, 0x00, 0xc3, 0xc3, 0xc3, 0xc3, 0xff, 0xc3, 0xc3, 0xc3, 0x66, 0x3c, 0x18}, // A
 {0x00, 0x00, 0xfe, 0xc7, 0xc3, 0xc3, 0xc7, 0xfe, 0xc7, 0xc3, 0xc3, 0xc7, 0xfe}, // B
 {0x00, 0x00, 0x7e, 0xe7, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0xe7, 0x7e}, // V
@@ -44,75 +42,79 @@ GLubyte letters[][13] = {
 namespace crashburn
 {
 
-// Constructors/Destructors
 Text2DItem::Text2DItem()
-: _position(), _color(), _size(12.0), _text("")        
+    : size_(12.0)        
 {
+    std::memset(position_, 0, sizeof(position_));
+    std::memset(color_, 0, sizeof(color_));
 }
 
 Text2DItem::Text2DItem(const std::string& text)
-: _position(), _color(), _size(12.0), _text(text)        
+    : size_(12.0)        
 {
+    std::memset(position_, 0, sizeof(position_));
+    std::memset(color_, 0, sizeof(color_));
+    text_ = text;
 }
 
 Text2DItem::~Text2DItem()
 {
-
 }
 
-// Getters/Setters
-void Text2DItem::resize(const float size)
+void Text2DItem::resize(float size)
 {
-    // TODO
+    size_ = size;
 }
 
 void Text2DItem::set_text(const std::string& text)
 {
-    // TODO
+    text_ = text;
 }
 
-void Text2DItem::set_color(const vec3& color)
+void Text2DItem::set_color(float r, float g, float b)
 {
-    // TODO
+  color_[0] = r;
+  color_[1] = g;
+  color_[2] = b;
 }
 
-void Text2DItem::set_position(const vec2& position)
+void Text2DItem::set_position(float x, float y)
 {
-    // TODO
+    position_[0] = x;
+    position_[1] = y;
 }
 
 const float Text2DItem::size() const
 {
-    return _size;
+    return size_;
 }
 
-const std::string Text2DItem::text() const
+const std::string& Text2DItem::text() const
 {
-    return _text;
+    return text_;
 }
 
-const vec3& Text2DItem::color() const
+const vec3f_t& Text2DItem::color() const
 {
-    return _color;
+    return color_;
 }
 
-const vec2& Text2DItem::position() const
+const vec2f_t& Text2DItem::position() const
 {
-    return _position;
+    return position_;
 }
 
 
-// Display the text on the screen
-void Text2DItem::draw()
+void Text2DItem::render() const
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glRasterPos2i(100, 100);
 
     glColor3f(1.0, 1.0, 1.0);
     glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, letters[0]);
- 
     
     glFlush ();
 }
 
 } // end of namespace crashburn
+

@@ -6,9 +6,9 @@
 namespace crashburn
 {
 
-typedef GLfloat vec2[2];
-typedef GLfloat vec3[3];
-typedef GLfloat vec4[4];
+typedef GLfloat vec2f_t[2];
+typedef GLfloat vec3f_t[3];
+typedef GLfloat vec4f_t[4];
 
 }
 

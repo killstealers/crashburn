@@ -78,8 +78,8 @@ MD2MeshLoader::MD2MeshLoader(const std::string &filename)
             _frames[i].verts = new MD2Vertex_t[_header.num_vertices];
 
             // Read frame data
-            ifs.read(reinterpret_cast<char *>(&_frames[i].scale), sizeof(vec3));
-            ifs.read (reinterpret_cast<char *>(&_frames[i].translate), sizeof(vec3));
+            ifs.read(reinterpret_cast<char *>(&_frames[i].scale), sizeof(vec3f_t));
+            ifs.read (reinterpret_cast<char *>(&_frames[i].translate), sizeof(vec3f_t));
             ifs.read(reinterpret_cast<char *>(&_frames[i].name), sizeof(char) * 16);
             ifs.read(reinterpret_cast<char *>(_frames[i].verts), sizeof(MD2Vertex_t) * _header.num_vertices);
         }
@@ -376,7 +376,7 @@ MD2MeshLoader::renderFrameWithGLcmds (int frame)
     }
 
             // Parse all OpenGL commands of this group
-            for (/* nothing *//*; i > 0; --i, pGlcmds += 3)
+            for (; i > 0; --i, pGlcmds += 3)
     {
         // pGlcmds[0] : final S texture coord.
         // pGlcmds[1] : final T texture coord.
@@ -447,7 +447,7 @@ MD2MeshLoader::drawModelItpWithGLcmds (int frameA, int frameB, float interp)
     }
 
             // Parse all OpenGL commands of this group
-            for (/* nothing *//*; i > 0; --i, pGlcmds += 3)
+            for (; i > 0; --i, pGlcmds += 3)
     {
         // pGlcmds[0] : final S texture coord.
         // pGlcmds[1] : final T texture coord.
