@@ -30,8 +30,13 @@ public:
         glMatrixMode(GL_MODELVIEW);
 
         // Setup the text properties
-        text_.set_text("HELLO");
-        text_.set_color(1., 0., 0.);
+        text1_.set_text("HELLO");
+        text1_.set_position(50., 100.);
+        text1_.set_color(1., 0., 0.);
+
+        text2_.set_text("WORLD");
+        text1_.set_position(50., 120.);
+        text2_.set_color(0., 1., 0.);
 
         return true;
     }
@@ -56,11 +61,13 @@ public:
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        text_.render();
+        text1_.render();
+        text2_.render();
     }
 
 private:
-    crashburn::Text2DItem text_;
+    crashburn::Text2DItem text1_;
+    crashburn::Text2DItem text2_;
 };
 
 int main(int argc, char** argv)

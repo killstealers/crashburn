@@ -107,11 +107,15 @@ const vec2f_t& Text2DItem::position() const
 
 void Text2DItem::render() const
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glRasterPos2i(100, 100);
+    glRasterPos2fv(position_);
+    glColor3fv(color_);
 
-    glColor3f(1.0, 1.0, 1.0);
+    GLint previous_alignment;
+    glGetIntegerv(GL_UNPACK_ALIGNMENT, &previous_alignment);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, letters[0]);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, previous_alignment);
     
     glFlush ();
 }
