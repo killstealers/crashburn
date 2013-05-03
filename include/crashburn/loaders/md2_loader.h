@@ -7,12 +7,10 @@
 
 #include <GL/glfw.h>
 
+#include "crashburn/crashburn.h"
+
 namespace crashburn
 {
-
-typedef GLfloat vec2_t[2];
-typedef GLfloat vec3_t[3];
-
 
 // MD2 Header
 struct MD2Header_t
@@ -80,8 +78,8 @@ struct MD2Frame_t
         delete [] verts;
     }
 
-    vec3_t scale;        
-    vec3_t translate;    
+    vec3 scale;        
+    vec3 translate;    
     char name[16];       
     MD2Vertex_t *verts;  
 };
