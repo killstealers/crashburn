@@ -31,11 +31,11 @@ public:
 
         // Setup the text properties
         text1_.set_text("HELLO");
-        text1_.set_position(50., 100.);
+        text1_.set_position(50., 120.);
         text1_.set_color(1., 0., 0.);
 
         text2_.set_text("WORLD");
-        text1_.set_position(50., 120.);
+        text2_.set_position(50., 100.);
         text2_.set_color(0., 1., 0.);
 
         return true;

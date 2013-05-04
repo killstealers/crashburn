@@ -46,15 +46,20 @@ Text2DItem::Text2DItem()
     : size_(12.0)        
 {
     std::memset(position_, 0, sizeof(position_));
-    std::memset(color_, 0, sizeof(color_));
+    color_[0] = 1;
+    color_[1] = 1;
+    color_[2] = 1;
 }
 
 Text2DItem::Text2DItem(const std::string& text)
     : size_(12.0)        
 {
     std::memset(position_, 0, sizeof(position_));
-    std::memset(color_, 0, sizeof(color_));
+    color_[0] = 1;
+    color_[1] = 1;
+    color_[2] = 1;
     text_ = text;
+    
 }
 
 Text2DItem::~Text2DItem()
@@ -114,7 +119,12 @@ void Text2DItem::render() const
     glGetIntegerv(GL_UNPACK_ALIGNMENT, &previous_alignment);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, letters[0]);
+
+    for(int i = 0; i < text_.length() && i < 100; ++i)
+    {
+        glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, letters[text_.at(i) - 'A']);
+    }
+    
     glPixelStorei(GL_UNPACK_ALIGNMENT, previous_alignment);
     
     glFlush ();

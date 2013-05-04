@@ -38,6 +38,7 @@ private:
     vec3f_t     color_;
     float       size_;
     std::string text_;
+    //GLubyte letters_[100];
     
 };
 
