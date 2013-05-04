@@ -12,6 +12,12 @@ ADD_EXECUTABLE(test_drawtext $<TARGET_OBJECTS:crashburn_objects>
 TARGET_LINK_LIBRARIES(test_drawtext ${GLFW_LIBRARY}
                                     ${OPENGL_LIBRARIES})
 
+# Test to load a tga texture
+ADD_EXECUTABLE(test_tga $<TARGET_OBJECTS:crashburn_objects>
+                        test_tga.cpp)
+TARGET_LINK_LIBRARIES(test_tga ${GLFW_LIBRARY}
+                               ${OPENGL_LIBRARIES})
+
 # ===== Template for adding a new test =====
 # Create an executable with crashburn object files adding
 # a custom entry point
