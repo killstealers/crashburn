@@ -30,12 +30,13 @@ public:
         glMatrixMode(GL_MODELVIEW);
 
         // Setup the text properties
-        text1_.set_text("salut je m'appellen henry! j'ai 36,4 ans?(@");
+        text1_.set_text("This is an example text, using special characters!");
         text1_.set_position(50., 120.);
         text1_.set_color(1., 0., 0.);
 
-        text2_.set_text("WORLD");
+        text2_.set_text("This 1st test contains 2 numbers, and a smiley ;-)");
         text2_.set_position(50., 100.);
+        text2_.set_color(0., 1., 0.);
         
 
         return true;
