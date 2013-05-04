@@ -50,10 +50,10 @@ public:
 
         glEnable(GL_TEXTURE_2D);
 
-        texture_ctc24_ = load_texture("tests/test_tga_ctc24.tga");
-        texture_ctc32_ = load_texture("tests/test_tga_ctc32.tga");
-        texture_utc24_ = load_texture("tests/test_tga_utc24.tga");
-        texture_utc32_ = load_texture("tests/test_tga_utc32.tga");
+        texture_ctc24_ = load_texture("tests/data/test_tga_ctc24.tga");
+        texture_ctc32_ = load_texture("tests/data/test_tga_ctc32.tga");
+        texture_utc24_ = load_texture("tests/data/test_tga_utc24.tga");
+        texture_utc32_ = load_texture("tests/data/test_tga_utc32.tga");
 
         return true;
     }

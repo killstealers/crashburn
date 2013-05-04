@@ -1,5 +1,9 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
+# Copy test date to output directory
+FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data
+          DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 # MD2 loader test. Usage: ./test_md2 <FILENAME>
 ADD_EXECUTABLE(test_md2 $<TARGET_OBJECTS:crashburn_objects>
                         test_md2.cpp)
