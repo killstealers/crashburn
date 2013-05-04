@@ -18,6 +18,12 @@ ADD_EXECUTABLE(test_tga $<TARGET_OBJECTS:crashburn_objects>
 TARGET_LINK_LIBRARIES(test_tga ${GLFW_LIBRARY}
                                ${OPENGL_LIBRARIES})
 
+# Test to trigger a button on the screen
+ADD_EXECUTABLE(test_clickable $<TARGET_OBJECTS:crashburn_objects>
+                        test_clickable.cpp)
+TARGET_LINK_LIBRARIES(test_clickable ${GLFW_LIBRARY}
+                               ${OPENGL_LIBRARIES})
+
 # ===== Template for adding a new test =====
 # Create an executable with crashburn object files adding
 # a custom entry point
