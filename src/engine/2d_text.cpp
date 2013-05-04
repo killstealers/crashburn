@@ -46,18 +46,18 @@ Text2DItem::Text2DItem()
     : size_(12.0)        
 {
     std::memset(position_, 0, sizeof(position_));
-    color_[0] = 1;
-    color_[1] = 1;
-    color_[2] = 1;
+    color_[0] = 1.0;
+    color_[1] = 1.0;
+    color_[2] = 1.0;
 }
 
 Text2DItem::Text2DItem(const std::string& text)
     : size_(12.0)        
 {
     std::memset(position_, 0, sizeof(position_));
-    color_[0] = 1;
-    color_[1] = 1;
-    color_[2] = 1;
+    color_[0] = 1.0;
+    color_[1] = 1.0;
+    color_[2] = 1.0;
     text_ = text;
     
 }

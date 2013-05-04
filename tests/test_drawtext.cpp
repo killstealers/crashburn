@@ -36,7 +36,7 @@ public:
 
         text2_.set_text("WORLD");
         text2_.set_position(50., 100.);
-        text2_.set_color(0., 1., 0.);
+        
 
         return true;
     }
@@ -61,7 +61,7 @@ public:
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        text1_.render();
+        text1_.render();        
         text2_.render();
     }
 
