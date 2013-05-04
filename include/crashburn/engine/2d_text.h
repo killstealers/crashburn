@@ -37,8 +37,7 @@ private:
     vec2f_t     position_;
     vec3f_t     color_;
     float       size_;
-    std::string text_;
-    //GLubyte letters_[100];
+    std::string text_;   
     
 };
 
