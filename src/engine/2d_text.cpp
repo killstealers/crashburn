@@ -8,7 +8,7 @@ static GLubyte space[] =
 {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 static GLubyte dot[] =
-{0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+{0x18, 0x66, 0x42, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x42, 0x66, 0x18};
 
 static GLubyte letters[][13] = {
 {0x00, 0x00, 0xc3, 0xc3, 0xc3, 0xc3, 0xff, 0xc3, 0xc3, 0xc3, 0x66, 0x3c, 0x18}, // A
@@ -112,8 +112,8 @@ const vec2f_t& Text2DItem::position() const
 
 void Text2DItem::render() const
 {
-    glRasterPos2fv(position_);
     glColor3fv(color_);
+    glRasterPos2fv(position_);    
 
     GLint previous_alignment;
     glGetIntegerv(GL_UNPACK_ALIGNMENT, &previous_alignment);
@@ -122,7 +122,7 @@ void Text2DItem::render() const
 
     for(int i = 0; i < text_.length() && i < 100; ++i)
     {
-        glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, letters[text_.at(i) - 'A']);
+        glBitmap(8, 13, 0.0, 2.0, 10.0, 0.0, dot);
     }
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, previous_alignment);
@@ -131,4 +131,32 @@ void Text2DItem::render() const
 }
 
 } // end of namespace crashburn
+/*
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
 
+. . . # # . . . 00011000 0x18
+. # # . . # # . 01100110 0x66
+. # . . . . # . 01000010 0x42
+# . . . . . . # 10000001 0x81
+# . . . . . . # 10000001 0x81
+# . . . . . . # 10000001 0x81
+# . . . . . . # 10000001 0x81
+# . . . . . . # 10000001 0x81
+# . . . . . . # 10000001 0x81
+# . . . . . . # 10000001 0x81
+. # . . . . # . 01000010 0x42
+. # # . . # # . 01100110 0x66
+. . . # # . . . 00011000 0x18
+*/
