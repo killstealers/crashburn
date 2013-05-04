@@ -30,7 +30,7 @@ public:
         glMatrixMode(GL_MODELVIEW);
 
         // Setup the text properties
-        text1_.set_text("HELLO");
+        text1_.set_text("salut je m'appellen henry! j'ai 36,4 ans?(@");
         text1_.set_position(50., 120.);
         text1_.set_color(1., 0., 0.);
 
