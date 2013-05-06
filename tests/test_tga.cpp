@@ -3,6 +3,7 @@
 
 #include <GL/glfw.h>
 
+#include <crashburn/engine/2d_text.h>
 #include <crashburn/engine/engine.h>
 #include <crashburn/scene/scene.h>
 #include <crashburn/loaders/tga_loader.h>
@@ -55,6 +56,16 @@ public:
         texture_utc24_ = load_texture("tests/data/test_tga_utc24.tga");
         texture_utc32_ = load_texture("tests/data/test_tga_utc32.tga");
 
+        text_ctc24_.set_text("Compressed - True color - 24bpp");
+        text_ctc32_.set_text("Compressed - True color - 32bpp");
+        text_utc24_.set_text("Uncompressed - True color - 24bpp");
+        text_utc32_.set_text("Uncompressed - True color - 32bpp");
+
+        text_ctc24_.set_position(0.01, 0.51);
+        text_ctc32_.set_position(0.51, 0.51);
+        text_utc24_.set_position(0.01, 0.01);
+        text_utc32_.set_position(0.51, 0.01);
+
         return true;
     }
 
@@ -95,10 +106,10 @@ public:
         glBindTexture(GL_TEXTURE_2D, texture_ctc24_);
         glBegin(GL_QUADS);
              glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.01, 0.51);
+             glVertex2f(0.01, 0.53);
 
              glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.49, 0.51);
+             glVertex2f(0.49, 0.53);
 
              glTexCoord2f(1.0, 1.0);
              glVertex2f(0.49, 0.99);
@@ -112,10 +123,10 @@ public:
         glBindTexture(GL_TEXTURE_2D, texture_ctc32_);
         glBegin(GL_QUADS);
              glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.51, 0.51);
+             glVertex2f(0.51, 0.53);
 
              glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.99, 0.51);
+             glVertex2f(0.99, 0.53);
 
              glTexCoord2f(1.0, 1.0);
              glVertex2f(0.99, 0.99);
@@ -129,10 +140,10 @@ public:
         glBindTexture(GL_TEXTURE_2D, texture_utc24_);
         glBegin(GL_QUADS);
              glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.01, 0.01);
+             glVertex2f(0.01, 0.03);
 
              glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.49, 0.01);
+             glVertex2f(0.49, 0.03);
 
              glTexCoord2f(1.0, 1.0);
              glVertex2f(0.49, 0.49);
@@ -146,10 +157,10 @@ public:
         glBindTexture(GL_TEXTURE_2D, texture_utc32_);
         glBegin(GL_QUADS);
              glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.51, 0.01);
+             glVertex2f(0.51, 0.03);
 
              glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.99, 0.01);
+             glVertex2f(0.99, 0.03);
 
              glTexCoord2f(1.0, 1.0);
              glVertex2f(0.99, 0.49);
@@ -168,6 +179,11 @@ public:
             glVertex2f(1.0, 0.5);
         glEnd();
 
+        text_ctc24_.render();
+        text_ctc32_.render();
+        text_utc24_.render();
+        text_utc32_.render();
+
         glPopMatrix();
     }
 
@@ -176,6 +192,11 @@ private:
     GLuint texture_ctc32_;
     GLuint texture_utc24_;
     GLuint texture_utc32_;
+
+    crashburn::Text2DItem text_ctc24_;
+    crashburn::Text2DItem text_ctc32_;
+    crashburn::Text2DItem text_utc24_;
+    crashburn::Text2DItem text_utc32_;
 };
 
 int main( int argc, char** argv )

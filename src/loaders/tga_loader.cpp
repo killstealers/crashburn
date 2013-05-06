@@ -58,8 +58,8 @@ void* load_tga(const std::string& filename, TextureInfo& ti)
         footer_t footer;
         ifs.seekg(-sizeof(footer_t), std::ios::end);
         ifs.read((char*)&footer, sizeof(footer_t));
-        assert(std::strncmp(footer.signature, "TRUEVISION-XFILE.", 18)==0 &&
-               "error: filetype not supported (legacy TGA1)");
+        //assert(std::strncmp(footer.signature, "TRUEVISION-XFILE.", 18)==0 &&
+        //       "error: filetype not supported (legacy TGA1)");
         ifs.seekg(0);
     }
 #endif // NDEBUG
