@@ -126,7 +126,7 @@ public:
 
         // Bottom left
         // Uncompressed - True colors - 24bpp
-        glBindTexture(GL_TEXTURE_2D, texture_utc32_);
+        glBindTexture(GL_TEXTURE_2D, texture_utc24_);
         glBegin(GL_QUADS);
              glTexCoord2f(0.0, 0.0);
              glVertex2f(0.01, 0.01);
