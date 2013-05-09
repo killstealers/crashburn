@@ -9,6 +9,9 @@ ADD_EXECUTABLE(test_tga $<TARGET_OBJECTS:crashburn_objects>
                         test_tga.cpp)
 TARGET_LINK_LIBRARIES(test_tga ${GLFW_LIBRARY}
                                ${OPENGL_LIBRARIES})
+ADD_TEST(NAME test_tga
+         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+         COMMAND ./tests/test_tga)
 
 # ===== Template for adding a new test =====
 # Create an executable with crashburn object files adding
