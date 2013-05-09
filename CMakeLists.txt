@@ -30,4 +30,7 @@ TARGET_LINK_LIBRARIES(crashburn ${GLFW_LIBRARY}
                                 ${OPENGL_LIBRARIES})
 
 # =============== TESTS ==========================
+ADD_SUBDIRECTORY(examples)
+
+# =============== TESTS ==========================
 ADD_SUBDIRECTORY(tests)

@@ -1,211 +1,78 @@
 #include <iostream>
 #include <cstdlib>
+#include <fstream>
+#include <cassert>
+#include <cstring>
 
-#include <GL/glfw.h>
-
-#include <crashburn/engine/2d_text.h>
-#include <crashburn/engine/engine.h>
-#include <crashburn/scene/scene.h>
 #include <crashburn/loaders/tga_loader.h>
 
-GLuint load_texture(const std::string& filename)
+void check_texture(const std::string& input, const std::string& output)
 {
-    GLuint texture;
-    glGenTextures(1, &texture);
+    crashburn::TextureInfo ti;
+    crashburn::load_tga(input, ti);
 
-    crashburn::TextureInfo texture_info;
-    crashburn::load_tga(filename, texture_info);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    std::ifstream ifs(output.c_str(), std::ios::binary);
 
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    std::size_t header_size = sizeof(ti.target) + sizeof(ti.level) +
+                              sizeof(ti.internalFormat) + sizeof(ti.width) +
+                              sizeof(ti.height) + sizeof(ti.format) +
+                              sizeof(ti.type);
+    std::size_t data_size = ti.width*ti.height*(ti.format==GL_RGBA?4:3);
 
-    glTexImage2D(texture_info.target,
-                 texture_info.level,
-                 texture_info.internalFormat,
-                 texture_info.width,
-                 texture_info.height,
-                 0,
-                 texture_info.format,
-                 texture_info.type,
-                 texture_info.data);
+    ifs.seekg(0, std::ios::end);
+    std::size_t size = ifs.tellg();
 
-    delete [] texture_info.data;
+    assert(size == header_size + data_size &&
+           "error: reference and loaded tga have different sizes");
+    ifs.seekg(0);
+    
+    GLenum   target;
+    GLint    level;
+    GLint    internalFormat;
+    GLsizei  width;
+    GLsizei  height;
+    GLenum   format;
+    GLenum   type;
 
-    return texture;
+    ifs.read((char*)&target,         sizeof(GLenum));
+    ifs.read((char*)&level,          sizeof(GLint));
+    ifs.read((char*)&internalFormat, sizeof(GLint));
+    ifs.read((char*)&width,          sizeof(GLsizei));
+    ifs.read((char*)&height,         sizeof(GLsizei));
+    ifs.read((char*)&format,         sizeof(GLenum));
+    ifs.read((char*)&type,           sizeof(GLenum));
+
+    assert(ti.target         == target &&
+           ti.level          == level &&
+           ti.internalFormat == internalFormat &&
+           ti.width          == width &&
+           ti.height         == height &&
+           ti.format         == format &&
+           ti.type           == type &&
+           "error: header reference and loaded are different");
+
+    crashburn::uint8_t* data = new uint8_t[data_size];
+    ifs.read((char*)data, data_size);
+    assert(std::memcmp(ti.data, data, data_size)==0 &&
+           "error: data reference and data loaded are different");
+
+    delete [] data;
+    delete [] ti.data;
 }
-
-class MyTestScene : public crashburn::Scene
-{
-public:
-    MyTestScene(crashburn::Engine& engine)
-        : crashburn::Scene(engine)
-    {
-    }
-
-public:
-    virtual bool setup()
-    {
-        // Clear values
-        glClearColor(0.25, 0.5, 0.75, 0);
-
-        glEnable(GL_TEXTURE_2D);
-
-        texture_ctc24_ = load_texture("tests/data/test_tga_ctc24.tga");
-        texture_ctc32_ = load_texture("tests/data/test_tga_ctc32.tga");
-        texture_utc24_ = load_texture("tests/data/test_tga_utc24.tga");
-        texture_utc32_ = load_texture("tests/data/test_tga_utc32.tga");
-
-        text_ctc24_.set_text("Compressed - True color - 24bpp");
-        text_ctc32_.set_text("Compressed - True color - 32bpp");
-        text_utc24_.set_text("Uncompressed - True color - 24bpp");
-        text_utc32_.set_text("Uncompressed - True color - 32bpp");
-
-        text_ctc24_.set_position(0.01, 0.51);
-        text_ctc32_.set_position(0.51, 0.51);
-        text_utc24_.set_position(0.01, 0.01);
-        text_utc32_.set_position(0.51, 0.01);
-
-        return true;
-    }
-
-    virtual bool cleanup()
-    {
-        glDeleteTextures(1, &texture_ctc24_);
-        glDeleteTextures(1, &texture_ctc32_);
-        glDeleteTextures(1, &texture_utc24_);
-        glDeleteTextures(1, &texture_utc32_);
-        return true;
-    }
-
-    virtual void handle_events()
-    {
-        // Exit when we press Escape
-        if (glfwGetKey(GLFW_KEY_ESC)==GLFW_PRESS)
-            engine_.stop();
-    }
-
-    virtual void update(double time_delta)
-    {
-    }
-
-    virtual void render()
-    {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glLoadIdentity();
-
-        // Align on (0;0) on lower left corner
-        //          (1;1) on top right corner
-        glPushMatrix();
-        glTranslatef(-1.0, -1.0, 0.0);
-        glScalef(2.0, 2.0, 1.0);
-
-        // Top left
-        // Compressed - True colors - 24bpp
-        glBindTexture(GL_TEXTURE_2D, texture_ctc24_);
-        glBegin(GL_QUADS);
-             glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.01, 0.53);
-
-             glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.49, 0.53);
-
-             glTexCoord2f(1.0, 1.0);
-             glVertex2f(0.49, 0.99);
-
-             glTexCoord2f(0.0, 1.0);
-             glVertex2f(0.01, 0.99);
-        glEnd();
-
-        // Top right
-        // Compressed - True colors - 32bpp
-        glBindTexture(GL_TEXTURE_2D, texture_ctc32_);
-        glBegin(GL_QUADS);
-             glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.51, 0.53);
-
-             glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.99, 0.53);
-
-             glTexCoord2f(1.0, 1.0);
-             glVertex2f(0.99, 0.99);
-
-             glTexCoord2f(0.0, 1.0);
-             glVertex2f(0.51, 0.99);
-        glEnd();
-
-        // Bottom left
-        // Uncompressed - True colors - 24bpp
-        glBindTexture(GL_TEXTURE_2D, texture_utc24_);
-        glBegin(GL_QUADS);
-             glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.01, 0.03);
-
-             glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.49, 0.03);
-
-             glTexCoord2f(1.0, 1.0);
-             glVertex2f(0.49, 0.49);
-
-             glTexCoord2f(0.0, 1.0);
-             glVertex2f(0.01, 0.49);
-        glEnd();
-
-        // Bottom right
-        // Uncompressed - True colors - 32bpp
-        glBindTexture(GL_TEXTURE_2D, texture_utc32_);
-        glBegin(GL_QUADS);
-             glTexCoord2f(0.0, 0.0);
-             glVertex2f(0.51, 0.03);
-
-             glTexCoord2f(1.0, 0.0);
-             glVertex2f(0.99, 0.03);
-
-             glTexCoord2f(1.0, 1.0);
-             glVertex2f(0.99, 0.49);
-
-             glTexCoord2f(0.0, 1.0);
-             glVertex2f(0.51, 0.49);
-        glEnd();
-
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glColor3f(1.0, 1.0, 1.0);
-        glBegin(GL_LINES);
-            glVertex2f(0.5, 0.0);
-            glVertex2f(0.5, 1.0);
-
-            glVertex2f(0.0, 0.5);
-            glVertex2f(1.0, 0.5);
-        glEnd();
-
-        text_ctc24_.render();
-        text_ctc32_.render();
-        text_utc24_.render();
-        text_utc32_.render();
-
-        glPopMatrix();
-    }
-
-private:
-    GLuint texture_ctc24_;
-    GLuint texture_ctc32_;
-    GLuint texture_utc24_;
-    GLuint texture_utc32_;
-
-    crashburn::Text2DItem text_ctc24_;
-    crashburn::Text2DItem text_ctc32_;
-    crashburn::Text2DItem text_utc24_;
-    crashburn::Text2DItem text_utc32_;
-};
 
 int main( int argc, char** argv )
 {
-    crashburn::Engine& engine = crashburn::Engine::instance();
+    check_texture("tests/data/test_tga_ctc24.tga",
+                  "tests/data/test_tga_ctc24.tga.out");
 
-    engine.set_scene(new MyTestScene(engine));
-
-    engine.start();
+    check_texture("tests/data/test_tga_ctc32.tga",
+                  "tests/data/test_tga_ctc32.tga.out");
+    
+    check_texture("tests/data/test_tga_utc24.tga",
+                  "tests/data/test_tga_utc24.tga.out");
+    
+    check_texture("tests/data/test_tga_utc32.tga",
+                  "tests/data/test_tga_utc32.tga.out");
   
     return EXIT_SUCCESS;
 }

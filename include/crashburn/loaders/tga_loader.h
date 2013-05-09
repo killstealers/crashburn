@@ -5,6 +5,8 @@
 
 #include <GL/glfw.h>
 
+#include <crashburn/crashburn.h>
+
 namespace crashburn
 {
 
