@@ -23,4 +23,4 @@ Just as any CMake project:
 Authors
 -------
 - Aurelien Vallee <vallee.aurelien@gmail.com>
-- Jerome Bouzillard <taghazog@gmail.com>
+- Jerome Bouzillard <jerome.bouzillard@gmail.com>
